@@ -1,0 +1,45 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drop</title>
+
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
+<script src="https://www.dropbox.com/static/api/1/dropbox-datastores-0.1.0-b3.js"></script>
+<script src="/app.js"></script>
+
+<div class="container" ng-app>
+	<div ng-controller="ItemsController">
+		<div class="alert alert-info">{{status}}</div>
+
+		<ul class="list-unstyled">
+			<li ng-repeat="item in items" class="item">
+				<article>
+					<form class="form-horizontal" role="form" ng-submit="update($index)">
+						<div class="form-group">
+							<label for="input-title" class="col-lg-1 control-label">Title</label>
+							<div class="col-lg-10">
+								<input ng-model="_item(item,'title').model" type="text" class="form-control" id="input-title">
+							</div>
+							<div class="col-lg-1">
+								<button class="btn btn-danger" ng-click="delete($index)"><span class="glyphicon glyphicon-trash"></span></button>
+							</div>
+						</div>
+					</form>
+				</article>
+			</li>
+		</ul>
+
+		<form class="form-horizontal" role="form" ng-submit="insert()">
+			<div class="form-group">
+				<label for="input-title" class="col-lg-1 control-label">Title</label>
+				<div class="col-lg-10">
+					<input ng-model="title" type="text" class="form-control" id="input-title">
+				</div>
+				<div class="col-lg-1">
+					<button class="btn btn-primary" type="submit">Add</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

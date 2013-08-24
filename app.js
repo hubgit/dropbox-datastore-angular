@@ -13,7 +13,7 @@ var ItemsController = function ($scope) {
 		$scope.title = null;
 	};
 
-	$scope.delete = function (idx) {
+	$scope.deleteRecord = function (idx) {
 		$scope.items[idx].deleteRecord();
 	};
 

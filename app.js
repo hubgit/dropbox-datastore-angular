@@ -7,10 +7,10 @@ var ItemsController = function ($scope) {
 	 * Transformer
 	 ****************/
 
-	$scope._item = function (item, field){
+	$scope._proxy = function (item, field){
 		return {
-			get model() { return item.get(field); },
-			set model(val) { item.set(field, val || ''); }
+			get data() { return item.get(field); },
+			set data(val) { item.set(field, val || ''); }
 		}
 	};
 
@@ -118,6 +118,9 @@ var ItemsController = function ($scope) {
 		$scope.editingRecord = $scope.items[i];
 		$scope.edit = $scope.editingRecord.getFields();
 
+		$("#edit")
+			.find(".modal-title").text("Edit").end()
+			.find("")
 	};
 
 	$(document).on('shown.bs.modal', '.modal', function() {

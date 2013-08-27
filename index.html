@@ -25,11 +25,11 @@
 						<article itemscope>
 							<div class="row">
 								<div class="col-lg-10">
-									<div itemprop="title" class="article-title">{{_item(item, 'title').model}}</div>
+									<div itemprop="title" class="article-title">{{_proxy(item, 'title').data}}</div>
 								</div>
 
-								<div class="col-lg-10" ng-show="_item(item, 'description').model">
-									<blockquote itemprop="description" class="article-description">{{_item(item, 'description').model}}</blockquote>
+								<div class="col-lg-10" ng-show="_proxy(item, 'description').data">
+									<blockquote itemprop="description" class="article-description">{{_proxy(item, 'description').data}}</blockquote>
 								</div>
 
 								<div class="col-lg-1">

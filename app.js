@@ -52,57 +52,59 @@ var ItemsController = function ($scope) {
 	 * Sync
 	 ****************/
 
-	$scope.sync = function(event) {
-		//console.log(event); // TODO: no event yet
-	};
+	var sync = {
+		progress: function(event) {
+			//console.log(event); // TODO: no event yet
+		},
 
-	$scope.changed = function (event) {
-		event.affectedRecordsForTable('items').map(function(record) {
-			var found = false;
-			var id = record.getId();
+		changed: function (event) {
+			event.affectedRecordsForTable('items').map(function(record) {
+				var found = false;
+				var id = record.getId();
 
-			var i = $scope.items.length;
+				var i = $scope.items.length;
 
-			while (i--) {
-				if ($scope.items[i].getId() === id) {
-					if (record.isDeleted()) {
-						$scope.items.splice(i, 1);
-					} else {
-						$scope.items[i] = record;
+				while (i--) {
+					if ($scope.items[i].getId() === id) {
+						if (record.isDeleted()) {
+							$scope.items.splice(i, 1);
+						} else {
+							$scope.items[i] = record;
+						}
+
+						found = true;
+						break;
 					}
-
-					found = true;
-					break;
 				}
+
+				if (!found) {
+					$scope.items.push(record);
+				}
+			})
+		},
+
+		opened: function (error, datastore) {
+			if (error) {
+				$scope.status = 'Error opening default datastore:' + error;
+			} else {
+				$scope.table = datastore.getTable('items');
+				$scope.items = $scope.table.query();
+
+				$scope.$apply(function() {
+					$scope.status = 'Ready';
+				});
+
+				datastore.recordsChanged.addListener(sync.changed);
+				datastore.syncStatusChanged.addListener(sync.progress);
 			}
+		},
 
-			if (!found) {
-				$scope.items.push(record);
+		authenticated: function (error, client) {
+			if (error) {
+				$scope.status = 'Authentication error:' + error;
+			} else {
+				client.getDatastoreManager().openDefaultDatastore(sync.opened);
 			}
-		})
-	};
-
-	$scope.opened = function (error, datastore) {
-		if (error) {
-			$scope.status = 'Error opening default datastore:' + error;
-		} else {
-			$scope.table = datastore.getTable('items');
-			$scope.items = $scope.table.query();
-
-			$scope.$apply(function() {
-				$scope.status = 'Ready';
-			});
-
-			datastore.recordsChanged.addListener($scope.changed);
-			datastore.syncStatusChanged.addListener($scope.sync);
-		}
-	};
-
-	$scope.authenticated = function (error, client) {
-		if (error) {
-			$scope.status = 'Authentication error:' + error;
-		} else {
-			client.getDatastoreManager().openDefaultDatastore($scope.opened);
 		}
 	};
 
@@ -128,5 +130,5 @@ var ItemsController = function ($scope) {
 	 ****************/
 
 	$scope.status = 'Authenticating...';
-	client.authenticate({ interactive: true }, $scope.authenticated);
+	client.authenticate({ interactive: true }, sync.authenticated);
 };

@@ -4,42 +4,99 @@
 <title>Drop</title>
 
 <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="article.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
 <script src="https://www.dropbox.com/static/api/1/dropbox-datastores-0.1.0-b3.js"></script>
 <script src="app.js"></script>
 
 <div class="container" ng-app>
-	<div ng-controller="ItemsController">
-		<div class="alert alert-info">{{status}}</div>
+	<article ng-controller="ItemsController">
+		<header class="alert alert-info">{{status}}</header>
 
-		<ul class="list-unstyled">
-			<li ng-repeat="item in items" class="item">
-				<article>
-					<form class="form-horizontal" role="form" ng-submit="update($index)">
-						<div class="form-group">
-							<label for="input-title" class="col-lg-1 control-label">Title</label>
-							<div class="col-lg-10">
-								<input ng-model="_item(item,'title').model" type="text" class="form-control" id="input-title">
+		<main class="row">
+			<section id="library" class="col-lg-6">
+				<h2>Collection</h2>
+
+				<ul class="list-unstyled" id="items">
+					<li ng-repeat="item in items" class="item" id="item-{{$index}}">
+						<article itemscope>
+							<div class="row">
+								<div itemprop="title" class="col-lg-10">{{_item(item, 'title').model}}</div>
+
+								<div class="col-lg-1">
+									<a class="btn btn-primary" data-toggle="modal" href="#edit" ng-click="editing($index)"><span class="glyphicon glyphicon-edit"></span></a>
+								</div>
+
+								<div class="col-lg-1">
+									<button class="btn btn-danger" ng-click="deleteItem($index)"><span class="glyphicon glyphicon-trash"></span></button>
+								</div>
 							</div>
-							<div class="col-lg-1">
-								<button class="btn btn-danger" ng-click="deleteRecord($index)"><span class="glyphicon glyphicon-trash"></span></button>
-							</div>
+						</article>
+					</li>
+				</ul>
+
+				<div>
+					<a class="btn btn-primary" type="button" data-toggle="modal" href="#create" ng-click="creating()"><span class="glyphicon glyphicon-plus-sign"></span> Add an item</a>
+				</div>
+			</section>
+
+			<aside id="create" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title">Create</h4>
 						</div>
-					</form>
-				</article>
-			</li>
-		</ul>
 
-		<form class="form-horizontal" role="form" ng-submit="insert()">
-			<div class="form-group">
-				<label for="input-title" class="col-lg-1 control-label">Title</label>
-				<div class="col-lg-10">
-					<input ng-model="title" type="text" class="form-control" id="input-title">
+						<div class="modal-body">
+							<form class="form-horizontal" role="form" id="form-edit">
+								<div class="form-group">
+									<label class="col-lg-1 control-label" for="input-title">Title</label>
+									<div class="col-lg-9">
+										<input ng-model="add.title" type="text" class="form-control" id="input-title">
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" ng-click="createItem()">Add</button>
+						</div>
+					</div>
 				</div>
-				<div class="col-lg-1">
-					<button class="btn btn-primary" type="submit">Add</button>
+			</aside>
+
+			<aside id="edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title">Edit</h4>
+						</div>
+
+						<div class="modal-body">
+							<form class="form-horizontal" role="form" id="form-edit">
+								<div class="form-group">
+									<label class="col-lg-1 control-label" for="input-title">Title</label>
+									<div class="col-lg-9">
+										<input ng-model="edit.title" type="text" class="form-control" id="input-title">
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" ng-click="updateItem()">Save changes</button>
+						</div>
+					</div>
 				</div>
-			</div>
-		</form>
-	</div>
+			</aside>
+		</main>
+	</article>
 </div>
+

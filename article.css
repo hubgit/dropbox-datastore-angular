@@ -1,0 +1,12 @@
+article[itemscope] {
+	padding: 10px 0;
+}
+
+article[itemscope]:not(:last-of-type) {
+	border-bottom: 1px solid #ddd;
+}
+
+article[itemprop=title] {
+	font-weight: bold;
+	font-size: 120%;
+}

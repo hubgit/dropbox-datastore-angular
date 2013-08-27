@@ -54,7 +54,7 @@ var ItemsController = function ($scope) {
 	 ****************/
 
 	$scope.sync = function(event) {
-		console.log(event); // TODO: no event yet
+		//console.log(event); // TODO: no event yet
 	};
 
 	$scope.changed = function (event) {
@@ -121,7 +121,7 @@ var ItemsController = function ($scope) {
 
 	};
 
-	$(document).on('shown', '.modal', function() {
+	$(document).on('shown.bs.modal', '.modal', function() {
 		$('input[type=text]', this).focus();
 	});
 

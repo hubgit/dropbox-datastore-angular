@@ -44,8 +44,8 @@ var ItemsController = function ($scope) {
 		$('#edit').modal('hide');
 	};
 
-	$scope.deleteItem = function (idx) {
-		$scope.items[idx].deleteRecord();
+	$scope.deleteItem = function (i) {
+		$scope.items[i].deleteRecord();
 	};
 
 	/****************
@@ -117,10 +117,6 @@ var ItemsController = function ($scope) {
 	$scope.editing = function (i) {
 		$scope.editingRecord = $scope.items[i];
 		$scope.edit = $scope.editingRecord.getFields();
-
-		$("#edit")
-			.find(".modal-title").text("Edit").end()
-			.find("")
 	};
 
 	$(document).on('shown.bs.modal', '.modal', function() {

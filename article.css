@@ -1,12 +1,13 @@
-article[itemscope] {
-	padding: 10px 0;
+#items li {
+	padding: 10px;
 }
 
-article[itemscope]:not(:last-of-type) {
+#items li:not(:last-of-type) {
 	border-bottom: 1px solid #ddd;
 }
 
-article[itemprop=title] {
+.article-title {
 	font-weight: bold;
 	font-size: 120%;
+	margin-bottom: 10px;
 }

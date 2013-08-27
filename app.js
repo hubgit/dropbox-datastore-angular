@@ -24,7 +24,6 @@ var ItemsController = function ($scope) {
 		var item = {
 			created: new Date(),
 			updated: new Date(),
-			title: $scope.add.title
 		};
 
 		angular.forEach($scope.add, function(value, key) {
